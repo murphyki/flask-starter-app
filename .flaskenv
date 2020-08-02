@@ -1,0 +1,2 @@
+FLASK_APP=bootstrap.py
+LOG_TO_STDOUT=False
