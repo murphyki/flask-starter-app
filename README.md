@@ -1,12 +1,33 @@
 # Overview
 `flask-starter-app` provides a boilerplate template for getting started wih [flask](https://flask.palletsprojects.com/en/1.1.x/).
 
+Inspiration for this project was provided by these two fantastic tutorial series:
+- [The Flask Mega-Tutorial](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world) by Miguel Grinberg
+- [Building a python app in flask](https://hackersandslackers.com/your-first-flask-application) by hackersandslackers.com
+
 # Deploy locally
 `flask-starter-app` can be run locally using the `flask` built in development server, which is usefull for local development. 
 
 When run in this manner, local configuration is read from the `.flaskenv` file.
 
-To run locally while developing:
+`flask-starter-app` was written using python3.7 and all dependecies are defined in the `requirements.txt` file.
+
+To install these dependencies, create a python virtual environment based on python3.7 as follows (i'm using `virtualenv` there are [alternatives](https://realpython.com/python-virtual-environments-a-primer/)):
+```
+virtualenv --python=python3.7 .venv
+```
+
+Activate the virtual environment:
+```
+source .venv/bin/activate
+```
+
+Install dependencies:
+```
+pip install -r requirements.txt
+```
+
+Run the app:
 ```
 flask run
 ```
@@ -28,6 +49,8 @@ docker-compose down
 
 # Deploy on heroku
 `flask-starter-app` provides a `Procfile` which allows the app to be deployed to [heroku](https://www.heroku.com/).
+
+The following steps are based on [this](https://devcenter.heroku.com/articles/getting-started-with-python?singlepage=true) excellent article provided by heroku.
 
 First install the heroku commandline utility, see [here](https://devcenter.heroku.com/articles/heroku-cli#download-and-install) for options:
 ```
