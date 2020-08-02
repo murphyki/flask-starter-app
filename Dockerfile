@@ -12,7 +12,6 @@ COPY bootstrap.py config.py docker-entrypoint.sh requirements.txt ./
 
 RUN python -m venv .venv
 RUN .venv/bin/pip install -r requirements.txt
-RUN .venv/bin/pip install gunicorn
 RUN chmod a+x docker-entrypoint.sh
 RUN chown -R bootstrapper:bootstrapper ./
 
