@@ -1,8 +1,12 @@
 ---
 version: "3.3"
 services:
+  proxy:
+    build:
+      context: ./services/proxy
+    ports:
+      - 8080:80
+    depends_on:
+      - app
   app:
     build: .
-    image: $APP_IMAGE_NAME:$APP_IMAGE_TAG
-    ports:
-      - "5000:5000"

@@ -2,6 +2,8 @@ FROM python:3.7-alpine
 
 ENV FLASK_APP bootstrap.py
 ENV LOG_TO_STDOUT True
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
 
 RUN adduser -D bootstrapper
 

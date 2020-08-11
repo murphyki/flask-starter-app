@@ -35,12 +35,14 @@ flask run
 # Deploy locally using docker-compose
 `flask-starter-app` provides both a `Dockerfile` that builds a `python alpine` based docker image of the `flask-starter-app` and a `docker-compose` file which allows the docker image to be spun up as a container and managed via `docker-compose`.
 
+Also defined in the `docker-compose` file is a nginx reverse proxy which forwards requests from port 8080 on the host to the gunicorn WSGI server which is actually serving the `flask-starter-app` content, replacing the need to run the `flask` built in development server, which should only be used for local development as mentioned above.
+
 Running locally is as simple as issuing the following command when inside the `flask-starter-app` project:
 ```
 docker-compose up
 ```
 
-Then view the app in a browser via the url `http://localhost:5000`
+Then view the app in a browser via the url `http://localhost:8080`
 
 When finished, tear down the app via:
 ```
