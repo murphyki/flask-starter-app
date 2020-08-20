@@ -2,14 +2,22 @@ import logging
 import os
 from logging.handlers import RotatingFileHandler
 from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 from app.home import bp as home_bp
 from app.services import bp as services_bp
 from app.contacts import bp as contacts_bp
 
+db = SQLAlchemy()
 
 def create_app(config_class):
     app = Flask(__name__)
     app.config.from_object(config_class)
+
+    db.init_app(app)
+
+    migrate = Migrate(app, db)
+    migrate.init_app(app, db)
 
     if app.config['LOG_TO_STDOUT'] == 'True':
         stream_handler = logging.StreamHandler()
@@ -33,6 +41,7 @@ def create_app(config_class):
         app.logger.addHandler(file_handler)
 
     with app.app_context():
+        db.create_all()
         app.register_blueprint(home_bp)
         app.register_blueprint(services_bp)
         app.register_blueprint(contacts_bp)

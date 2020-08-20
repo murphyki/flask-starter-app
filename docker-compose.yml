@@ -1,12 +1,27 @@
 ---
 version: "3.3"
 services:
+  db:
+    image: postgres
+    restart: always
+#    volumes:
+#      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: database
+  app:
+    build: .
+    restart: always
+    depends_on:
+      - db
   proxy:
     build:
       context: ./services/proxy
+    restart: always
     ports:
       - 8080:80
     depends_on:
       - app
-  app:
-    build: .
+#volumes:
+#  postgres_data:
