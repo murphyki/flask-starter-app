@@ -19,7 +19,7 @@ def create_app(config_class):
     migrate = Migrate(app, db)
     migrate.init_app(app, db)
 
-    if app.config['LOG_TO_STDOUT'] == 'True':
+    if app.config['LOG_TO_STDOUT'] == True:
         stream_handler = logging.StreamHandler()
         stream_handler.setLevel(logging.INFO)
         app.logger.addHandler(stream_handler)
@@ -48,6 +48,6 @@ def create_app(config_class):
 
     app.logger.setLevel(logging.INFO)
     app.logger.info('{0} started...'.format(app.config['APP_NAME']))
-    app.logger.info('Logging to {0}...'.format('stdout' if app.config['LOG_TO_STDOUT'] == 'True' else 'log file'))
+    app.logger.info('Logging to {0}...'.format('stdout' if app.config['LOG_TO_STDOUT'] == True else 'log file'))
 
     return app
