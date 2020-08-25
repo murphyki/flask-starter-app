@@ -5,8 +5,8 @@ ENV LOG_TO_STDOUT True
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-RUN groupadd bootstrapper
-RUN useradd -m -g bootstrapper bootstrapper
+RUN groupadd bootstrapper \
+&& useradd -m -g bootstrapper bootstrapper
 
 WORKDIR /home/bootstrapper
 
@@ -16,14 +16,13 @@ COPY config.py config.py
 COPY docker-entrypoint.sh docker-entrypoint.sh
 COPY requirements.txt requirements.txt
 
-RUN python -m venv .venv
-RUN .venv/bin/pip install --upgrade pip
-RUN .venv/bin/pip install --no-cache-dir -r requirements.txt
-RUN chmod a+x docker-entrypoint.sh
-RUN chown -R bootstrapper:bootstrapper ./
+RUN pip install --upgrade pip \
+&& pip install --no-cache-dir -r requirements.txt \
+&& chmod a+x docker-entrypoint.sh \
+&& chown -R bootstrapper:bootstrapper ./
 
 USER bootstrapper
 
 EXPOSE 5000
 
-ENTRYPOINT ["./docker-entrypoint.sh"]
+CMD ["gunicorn", "-b", ":5000", "bootstrap:app"]

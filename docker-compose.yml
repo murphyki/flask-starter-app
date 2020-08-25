@@ -3,25 +3,25 @@ version: "3.3"
 services:
   db:
     image: postgres
-    restart: always
-#    volumes:
-#      - postgres_data:/var/lib/postgresql/data/
     environment:
       POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres
       POSTGRES_DB: database
-  app:
-    build: .
     restart: always
+  app:
+    build:
+      context: .
+    command: flask run -h 0.0.0.0
+    volumes:
+      - .:/home/bootstrapper
     depends_on:
       - db
+    restart: always
   proxy:
     build:
       context: ./services/proxy
-    restart: always
     ports:
       - 8080:80
     depends_on:
       - app
-#volumes:
-#  postgres_data:
+    restart: always

@@ -1,2 +1,4 @@
 FLASK_APP=bootstrap.py
-LOG_TO_STDOUT=False
+FLASK_ENV=development
+LOG_TO_STDOUT=True
+DEBUG=1
