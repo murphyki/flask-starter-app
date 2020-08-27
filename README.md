@@ -5,12 +5,8 @@ Inspiration for this project was provided by these two fantastic tutorial series
 - [The Flask Mega-Tutorial](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world) by Miguel Grinberg
 - [Building a python app in flask](https://hackersandslackers.com/your-first-flask-application) by hackersandslackers.com
 
-# Deploy locally
-`flask-starter-app` can be run locally using the `flask` built in development server, which is usefull for local development. 
-
-When run in this manner, local configuration is read from the `.flaskenv` file.
-
-`flask-starter-app` was written using python3.7 and all dependecies are defined in the `requirements.txt` file.
+# Development setup
+`flask-starter-app` was written using python3.7 and all dependencies are defined in the `requirements.txt` file.
 
 To install these dependencies, create a python virtual environment based on python3.7 as follows (i'm using `virtualenv` there are [alternatives](https://realpython.com/python-virtual-environments-a-primer/)):
 ```
@@ -33,9 +29,19 @@ flask run
 ```
 
 # Deploy locally using docker-compose
-`flask-starter-app` provides both a `Dockerfile` that builds a `python alpine` based docker image of the `flask-starter-app` and a `docker-compose` file which allows the docker image to be spun up as a container and managed via `docker-compose`.
+`flask-starter-app` provides both a `Dockerfile` that builds a `python slim-buster` based docker image of the `flask-starter-app` and a `docker-compose` file which allows the docker image to be spun up as a container and managed via `docker-compose`.
 
-Also defined in the `docker-compose` file is a nginx reverse proxy which forwards requests from port 8080 on the host to the gunicorn WSGI server which is actually serving the `flask-starter-app` content, replacing the need to run the `flask` built in development server, which should only be used for local development as mentioned above.
+Defined in the `docker-compose` file are a number of services:
+- the main `flask-starter-app` app service
+- the nginx reverse proxy service which forwards requests to the app service
+- the database service which will eventually used to store content
+
+By default the `flask-starter-app` container runs the gunicorn WSGI server which is actually serving the `flask-starter-app` content.
+
+The gunicorn WSGI server command is overridden in the `docker-compose` file which instead runs the `flask` built in development server.
+Also defined in the `docker-compose` file is a bind mount for the `flask-starter-app` code which allows code changes to be reloaded without the need to rebuild the container.
+
+The `docker-compose` file depends on a number of environment variables being available which are automatically loaded from a `.env` file located at the root of the project file tree. A `.env.sample` file is provided which provides sane defaults for a local development setup. Just rename the file to `.env` and thats it.
 
 Running locally is as simple as issuing the following command when inside the `flask-starter-app` project:
 ```

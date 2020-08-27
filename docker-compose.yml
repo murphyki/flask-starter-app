@@ -2,20 +2,20 @@
 version: "3.3"
 services:
   db:
-    image: postgres
+    image: ${DB_IMAGE}
     environment:
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_USER: postgres
-      POSTGRES_DB: database
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DEFAULT_DATABASE}
     restart: always
   app:
     build:
       context: .
-    command: flask run -h 0.0.0.0
+    command: ${APP_BOOTSTRAP_COMMAND}
     environment:
       FLASK_ENV: development
       DEBUG: 1
-      DATABASE_URL: postgresql://postgres:postgres@db:5432/database
+      DATABASE_URL: ${DB_DRIVER}://${DB_USER}:${DB_PASSWORD}@db:${DB_PORT}/${DB_DEFAULT_DATABASE}
     volumes:
       - .:/home/bootstrapper
     depends_on:
@@ -25,7 +25,7 @@ services:
     build:
       context: ./services/proxy
     ports:
-      - 8080:80
+      - ${PROXY_HOST_PORT}:80
     depends_on:
       - app
     restart: always
